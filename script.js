@@ -356,6 +356,7 @@ function animate(){
 }
 
 
+
 /*--------------------------Testing Crash/Stop function--------------------------------*/
 function getDistance(user, obstacles) {
   if (obstacles.x < user.x + user.width &&
