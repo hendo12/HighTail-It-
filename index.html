@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="style.css">
+  <title>Furry Flight</title>
+</head>
+<body>
+  <div class="game-intro">
+    <img src="./IMG/introLogo/furryFlightNoShadow.png" alt="" class="logo-img">
+    <br>
+    <button id="start-button">StartGame</button>
+    <p>Use the left and right arrows to help Ruff survive the zombie apocalypse!</p>
+    <img src="./IMG/arrows.png" class="arrows-img">
+  </div>
+  <div id="gameInfo">
+    <div id="score">Score: 0</div>
+    <div id="coinsCollected"> Coins: 0</div>
+    <div id="level">Level: 1</div>
+    <div id="highScore">High Score: 0</div>
+  </div>
+  <div id="game-board">
+    <canvas id="board" width="420" height="650">
+    </canvas>
+  </div>
+  <script type="text/javascript" src="script.js"></script>
+</body>
+</html>

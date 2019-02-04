@@ -1,0 +1,109 @@
+body {
+  text-align: center;
+  background-color: #F4F4F4;
+  background-image: url('IMG/pageBackground/postapocalypse1.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+}
+
+/* .game-intro {
+  float: left;
+  margin: 10% 0;
+} */
+
+.game-intro {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-content: center;
+  width: 33%;
+  padding: 30px;
+}
+
+/* testing flexbox
+.game-intro {
+  padding: 0% 10%; 
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 45%;
+}
+
+*/
+
+.game-intro p {
+  font-size: 18px;
+  font-family: "Verdana";
+  text-align: center;
+  color: white;
+  font-weight: 500;
+  text-shadow: -1px 0 black, 0 2px black, 2px 0 black, 0 -1px black;
+}
+
+.logo-img {
+  width: 350px;
+  padding-bottom: 20px;
+}
+
+.arrows-img {
+  width: 150px;
+}
+
+#start-button {
+  font-size: 30px;
+  background-color: #F8B59A;
+  color: #fff;
+  padding: 20px 40px;
+  border: 0;
+  box-shadow: 0;
+  border-radius: 5px;
+  /* margin-bottom: 20px; */
+}
+
+#game-board {
+  float: left;
+  padding-top: 40px;
+  padding-right: 50px;
+  position: relative;
+  margin: 0 auto;
+  width: 33%;
+}
+
+
+/* Testing flexbox */
+/* #game-board {
+  display:flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 20px 0px;
+  position: relative;
+  width: 45%;
+} */
+
+#gameInfo {
+  color: white;
+  font-size: 1.8em;
+  font-weight: bold;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  padding-top: 5px;
+  padding-left: 0px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  width: 25%;
+}
+
+#score, #coinsCollected, #level, #highScore {
+  padding: 15px;
+}
+
+
+canvas {
+  background-image: url('IMG/terrain/Furry\ Flight\ demo\ canvas\ copy');
+  background-size: auto;
+  background-repeat: no-repeat;
+}
