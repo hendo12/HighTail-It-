@@ -46,6 +46,8 @@ function levelUp(points){
   } else if (points > 4000 && points <= 50000  && level != 5) {
     levelFive();
     level = 5
+  } else if (points >= 5000) {
+    alert('Ruff survived the apocalypse with your help!')
   }
 }
 
@@ -55,31 +57,31 @@ function levelOne () {
 }
 
 function levelTwo () {
-  setInterval(createZombie, 3000); //3000 creates a new Zombie every 3 seconds. Can be made into variable based on level. Testing inside animate function
-  setInterval(createCoins, 5000); //coins generated every 5 secs
+  //setInterval(createZombie, 3000); //3000 creates a new Zombie every 3 seconds. Can be made into variable based on level. Testing inside animate function
+  //setInterval(createCoins, 5000); //coins generated every 5 secs
   setInterval(createCars, 10000); //vehicle generated every 10 secs
-  document.getElementById('level').innerText = "Level: 2";
+  document.getElementById('level').innerText = "2";
 }
 
 function levelThree () {
-  setInterval(createZombie, 2000); //3000 creates a new Zombie every 2 seconds. Can be made into variable based on level. Testing inside animate function
-  setInterval(createCoins, 7000); //coins generated every 7 secs
-  setInterval(createCars, 8000); //vehicle generated every 8 secs
-  document.getElementById('level').innerText = "Level: 3";
+  setInterval(createZombie, 7500); //3000 creates a new Zombie every 2 seconds. Can be made into variable based on level. Testing inside animate function
+  //setInterval(createCoins, 7000); //coins generated every 7 secs
+  //setInterval(createCars, 12000); //vehicle generated every 8 secs
+  document.getElementById('level').innerText = "3";
 }
 
 function levelFour () {
-  setInterval(createZombie, 2000); //3000 creates a new Zombie every 2 seconds. Can be made into variable based on level. Testing inside animate function
-  setInterval(createCoins, 7000); //coins generated every 7 secs
-  setInterval(createCars, 8000); //vehicle generated every 8 secs
-  document.getElementById('level').innerText = "Level: 4";
+  //setInterval(createZombie, 2000); //3000 creates a new Zombie every 2 seconds. Can be made into variable based on level. Testing inside animate function
+  //setInterval(createCoins, 7000); //coins generated every 7 secs
+  setInterval(createCars, 12000); //vehicle generated every 8 secs
+  document.getElementById('level').innerText = "4";
 }
 
 function levelFive () {
-  setInterval(createZombie, 2000); //3000 creates a new Zombie every 2 seconds. Can be made into variable based on level. Testing inside animate function
-  setInterval(createCoins, 10000); //coins generated every 10 secs
-  setInterval(createCars, 5000); //vehicle generated every 5 secs
-  document.getElementById('level').innerText = "Level: 5";
+  setInterval(createZombie, 9500); //3000 creates a new Zombie every 2 seconds. Can be made into variable based on level. Testing inside animate function
+  //setInterval(createCoins, 10000); //coins generated every 10 secs
+  setInterval(createCars, 8000); //vehicle generated every 5 secs
+  document.getElementById('level').innerText = "5";
 }
 
 
@@ -201,7 +203,7 @@ let zombieSounds = [
 class Zombie {
   constructor(x){
     this.x = x;
-    this.y = 0;
+    this.y = -43;
     this.width = 40.4;
     this.height = 43;
   }
@@ -215,7 +217,7 @@ imgZombie.src = "./IMG/zombie/zombieIdleCrop.png";
 function createZombie(){
   let obs = {
     x:50,
-    y:0,
+    y:-43,
   }
   zombies.push(new Zombie(generateX(), 200));
   zombieSounds[generateRandomSound()].play(); //currently plays WAY too often 
@@ -244,7 +246,7 @@ function drawZombies() {
 class Cars {
   constructor(x){
     this.x = x;
-    this.y = 0;
+    this.y = -148;
     this.width = 80;
     this.height = 148;
   }
@@ -258,7 +260,7 @@ imgCars.src = "./IMG/obstacles/JeepCrop.png";
 function createCars(){
   let obs = {
     x:50,
-    y:0,
+    y:-148,
   }
   cars.push(new Cars(generateX(), 200));
   carSound.play();
@@ -346,10 +348,10 @@ function animate(){
   
   frames += 1;
 
-  document.getElementById('score').innerText = "Score: " + points;
-  document.getElementById('coinsCollected').innerText = "Coins: " + coinsCollected;
+  document.getElementById('score').innerText = points ;
+  document.getElementById('coinsCollected').innerText = coinsCollected;
   if (points > highScore) {
-    document.getElementById('highScore').innerText = "High Score: " + points;
+    document.getElementById('highScore').innerText = points;
   }
   score = points;
   //console.log(score);

@@ -41,15 +41,18 @@ body {
   color: white;
   font-weight: 500;
   text-shadow: -1px 0 black, 0 2px black, 2px 0 black, 0 -1px black;
+  align-self: center;
 }
 
 .logo-img {
   width: 350px;
   padding-bottom: 20px;
+  align-self: center;
 }
 
 .arrows-img {
   width: 150px;
+  align-self: center;
 }
 
 #start-button {
@@ -95,6 +98,7 @@ body {
   flex-wrap: nowrap;
   justify-content: center;
   width: 25%;
+  align-items: center;
 }
 
 #score, #coinsCollected, #level, #highScore {
@@ -103,7 +107,7 @@ body {
 
 
 canvas {
-  background-image: url('IMG/terrain/Furry\ Flight\ demo\ canvas\ copy');
+  background-image: url('IMG/terrain/Furry\ Flight\ demo\ canvas\ copy.jpeg');
   background-size: auto;
   background-repeat: no-repeat;
 }
