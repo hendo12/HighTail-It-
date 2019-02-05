@@ -82,24 +82,33 @@ let carInterval;
 let zombieInterval 
 let coinInterval;
 
+function clearAllIntervals (){
+  clearInterval(zombieInterval);
+  clearInterval(coinInterval);
+  clearInterval(carInterval);
+}
 
-function zombieCoinInt () {
-  zombieInterval = setInterval(createZombie, 3000); //3000 creates a new Zombie every 3 seconds.
-  coinInterval = setInterval(createCoins, 5000); //coins generated every 5 secs
-  carInterval = setInterval(createCars, 10000); //vehicle generated every 10 secs
+
+function zombieCoinInt (zombieTime, coinTime, carTime) {
+  zombieInterval = setInterval(createZombie, zombieTime); //3000 creates a new Zombie every 3 seconds.
+  coinInterval = setInterval(createCoins, coinTime); //coins generated every 5 secs
+  carInterval = setInterval(createCars, carTime); //vehicle generated every 10 secs
 
 }
 
 function levelOne () {
-  //clearInterval(carInterval);
   // zombieInterval;
   // coinInterval;
-  zombieCoinInt();
+  zombieCoinInt(3000,5000,10000);
+  clearInterval(carInterval);
   document.getElementById('level').innerText = "1";
 }
 
 
 function levelTwo () {
+  clearInterval(zombieInterval);
+  clearInterval(coinInterval);
+  zombieCoinInt(3000,5000,10000);
   //zombieInterval;
   //coinInterval;
   //carInterval;
@@ -108,38 +117,27 @@ function levelTwo () {
 
 function levelThree () {
   
-  clearInterval(zombieInterval);
-  clearInterval(coinInterval);
-  clearInterval(carInterval);
-  zombieInterval = setInterval(createZombie, 2500); //2500 creates a new Zombie every 2.5 seconds
+  clearAllIntervals();
+  zombieCoinInt(2500,7000,7500);
   zombieSpeed += 1; //Zombie speed increased by 1 pixel per frame
-  coinInterval = setInterval(createCoins, 7000); //coins generated every 7 secs
-  carInterval = setInterval(createCars, 7500);
   document.getElementById('level').innerText = "3";
 }
 
 function levelFour () {
   
-  clearInterval(zombieInterval);
-  zombieInterval = setInterval(createZombie, 2000);
-  coinInterval;
+  clearAllIntervals();
+  zombieCoinInt(2000, 7000, 5000);
   coinSpeed += 1;
-  clearInterval(carInterval);
-  setInterval(createCars, 5000); //vehicle generated every 5 secs
   carSpeed += 1;
   document.getElementById('level').innerText = "4";
 }
 
 function levelFive () {
   
-  clearInterval(zombieInterval);
-  clearInterval(coinInterval);
-  clearInterval(carInterval);
-  zombieInterval = setInterval(createZombie, 1500);
+  clearAllIntervals();
+  zombieCoinInt(1500, 10000, 3000);
   zombieSpeed += 1;
-  coinInterval = setInterval(createCoins, 10000);
   coinSpeed += 1;
-  carInterval = setInterval(createCars, 3000);
   carSpeed += 1;
   document.getElementById('level').innerText = "5";
 }
