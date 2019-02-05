@@ -2,7 +2,6 @@ window.onload = function() {
   document.getElementById("start-button").onclick = function() {
     startGame();
   };
-
 };
 
 var canvas = document.getElementById("board");
@@ -12,30 +11,40 @@ var ctx = canvas.getContext("2d");
    constructor(){
      this.score = 0;
      this.level = 1;
-     
    }
  }
-
 
 function startGame() {
   let game = new Game;
   backgroundMusic.play();
   dogBark.play();
-  
   animate(game);
-  levelUp()
-// if (score <= 2000) {
-//   levelOne();
-// } else if (score > 2000 && score <= 4000) {
-//   levelTwo();
-// } else if (score > 4000 && score <= 6000) {
-//   levelThree();
-// } else if (score > 6000 && score <= 8000) {
-//   levelFour();
-// } else if (score > 8000 && score <= 10000) {
-//   levelFive();
-// }
+  levelUp();
 }
+
+function endGame() {
+  backgroundMusic.stop();
+  dogWhimper.play();
+  init();
+}
+
+function init() {
+  level = 0;
+  document.getElementById('level').innerText = "1";
+  points = 0;
+  user.x = 200;
+  user.y = 540;
+  emptyObstacleArrays(zombies, cars, coins); 
+  clearAllIntervals();
+  setTimeout(startGame(), 3000);
+}
+
+function emptyObstacleArrays (zombies, cars, coins) {
+  zombies.length = 0;
+  cars.length = 0;
+  coins.length = 0;
+}
+
 let level = 0;
 function levelUp(points){
   // console.log(points, level)
@@ -55,32 +64,19 @@ function levelUp(points){
     levelFive();
     level = 5
   } else if (points > 900) {
-    alert('Ruff survived the apocalypse with your help!')
+    console.log('Ruff survived the apocalypse with your help!')
   }
-  // if (points <= 1000 && level !=1 && points != 0) {
-  //   levelOne();
-  //   level = 1; 
-  // } else if (points > 100 && points <= 300 && level !=2) {
-  //   levelTwo();
-  //   level = 2; 
-  // } else if (points > 300 && points <= 500 && level != 3) {
-  //   levelThree();
-  //   level = 3 
-  // } else if (points > 500 && points <= 700 && level != 4) {
-  //   levelFour();
-  //   level = 4 
-  // } else if (points > 700 && points <= 900  && level != 5) {
-  //   levelFive();
-  //   level = 5
-  // } else if (points > 900) {
-  //   alert('Ruff survived the apocalypse with your help!')
-  // }
- }
-
+}
 
 let carInterval;
 let zombieInterval 
 let coinInterval;
+
+function zombieCoinInt (zombieTime, coinTime, carTime) {
+  zombieInterval = setInterval(createZombie, zombieTime); //3000 creates a new Zombie every 3 seconds.
+  coinInterval = setInterval(createCoins, coinTime); //coins generated every 5 secs
+  carInterval = setInterval(createCars, carTime); //vehicle generated every 10 secs
+}
 
 function clearAllIntervals (){
   clearInterval(zombieInterval);
@@ -88,26 +84,14 @@ function clearAllIntervals (){
   clearInterval(carInterval);
 }
 
-
-function zombieCoinInt (zombieTime, coinTime, carTime) {
-  zombieInterval = setInterval(createZombie, zombieTime); //3000 creates a new Zombie every 3 seconds.
-  coinInterval = setInterval(createCoins, coinTime); //coins generated every 5 secs
-  carInterval = setInterval(createCars, carTime); //vehicle generated every 10 secs
-
-}
-
-function levelOne () {
-  // zombieInterval;
-  // coinInterval;
+function levelOne () {              //Level one has zombies and coins, but no cars
   zombieCoinInt(3000,5000,10000);
   clearInterval(carInterval);
   document.getElementById('level').innerText = "1";
 }
 
-
-function levelTwo () {
-  clearInterval(zombieInterval);
-  clearInterval(coinInterval);
+function levelTwo () {            //Level two has zombies, coins, and cars
+  clearAllIntervals();
   zombieCoinInt(3000,5000,10000);
   //zombieInterval;
   //coinInterval;
@@ -115,48 +99,29 @@ function levelTwo () {
   document.getElementById('level').innerText = "2";
 }
 
-function levelThree () {
-  
+function levelThree () {          //Level three has zombies and cars generating faster, while coins are generating slower. Zombies also get faster.
   clearAllIntervals();
   zombieCoinInt(2500,7000,7500);
   zombieSpeed += 1; //Zombie speed increased by 1 pixel per frame
   document.getElementById('level').innerText = "3";
 }
 
-function levelFour () {
-  
+function levelFour () {           //Level 4 has has zombies and cars generating faster again. Both coins and cars get faster. 
   clearAllIntervals();
-  zombieCoinInt(2000, 7000, 5000);
+  zombieCoinInt(1500, 7000, 5000);
   coinSpeed += 1;
   carSpeed += 1;
   document.getElementById('level').innerText = "4";
 }
 
-function levelFive () {
-  
+function levelFive () {            //Level 5 has zombies and cars generating even faster, while coins are generating even slower. All obstacles increase speed again.
   clearAllIntervals();
-  zombieCoinInt(1500, 10000, 3000);
+  zombieCoinInt(1000, 10000, 2500);
   zombieSpeed += 1;
   coinSpeed += 1;
   carSpeed += 1;
   document.getElementById('level').innerText = "5";
 }
-
-
-
-function endGame() {
-  backgroundMusic.stop();
-  dogWhimper.play();
-  //init();
-}
-
-function init() {
-  //level = 1;
-  //points = 0 
-  //window.location.reload()
-  startGame()
-}
-
 
 /*----------------------------------User--------------------------------------*/
 
@@ -203,11 +168,6 @@ document.onkeydown = function(e) {
 
 /*----------------------------------Functionality--------------------------------------*/
 
-//Sets default y of 0 and increases by 2 
-//This is what causes the zombies/objects to move down the canvas
-var y = 0;
-
-
 //generates a random x point at which zombies/obstacles spawn
 function generateX(){
   return Math.floor(Math.random()*250) + 57;
@@ -216,6 +176,16 @@ function generateX(){
 function generateRandomSound(){
   return Math.floor(Math.random () * zombieSounds.length);
 }
+
+function getDistance(user, obstacles) {
+  if (obstacles.x < user.x + user.width &&
+    obstacles.x + obstacles.width > user.x &&
+    obstacles.y < user.y + user.height &&
+    obstacles.y + obstacles.height > user.y) {
+       return true;
+    }
+}
+
 
 /*-------------------------------------Audio------------------------------------------*/
 function sound(src) {
@@ -253,16 +223,6 @@ let zombieSounds = [
   zombie4 = new sound("./audio/zombie/become_enraged09.mp3"),
 ];
 
-//Solution below required a third party API from https://p5js.org/examples/sound-preload-soundfile.html
-// let backgroundMusic;
-
-// function preLoad(){
-//   backgroundMusic = loadSound("./audio/Anonymous420_-_02_-__startup_nation.mp3");
-//   backgroundMusic.setVolume(0.5);
-// }
-
-// preLoad();
-
 /*--------------------------------------Zombies-----------------------------------------*/
 
 class Zombie {
@@ -286,16 +246,9 @@ function createZombie(){
     y:-43,
   }
   zombies.push(new Zombie(generateX(), 200));
-  console.log(zombies)
   //debugger
   zombieSounds[generateRandomSound()].play(); 
 }
-
-
-
-/*drawZombies function will control how 
-quickly zombies approach (default is moving 2 spaces on y axis). This can also be set
-to a variable that can change based on difficulty, along with setInterval*/
 
 function drawZombies() {
   for(var i = 0; i<zombies.length; i++){
@@ -303,14 +256,9 @@ function drawZombies() {
     ctx.drawImage(imgZombie, zombies[i].x,zombies[i].y, 40.4, 43);
     //checkCollision
     if (getDistance (user, zombies[i])) {    //if less than the addition of half the width of user + obstacle
-      console.log('collision')
-
       zombieSounds[generateRandomSound()].play();
-      game.score = 0;
-      game.level = 1;
-console.log(game.score)
-      //endGame();
-      // alert('You let Ruff get killed! You son of a bitch!!!');
+        endGame();
+        console.log('You let Ruff get killed! You son of a bitch!!!');
     } 
   }
 }
@@ -340,12 +288,6 @@ function createCars(){
   carSound.play();
 }
 
-
-
-/*drawCoins function will control how 
-quickly coins approach (default is moving 2 spaces on y axis). This can also be set
-to a variable that can change based on difficulty, along with setInterval*/
-
 function drawCars() {
   for(var i = 0; i<cars.length; i++){
     cars[i].y += carSpeed; //defines speed of the car
@@ -353,13 +295,10 @@ function drawCars() {
     if (getDistance (user, cars[i])) {    //if less than the addition of half the width of user + obstacle
       splatSound.play();
       endGame();
-      alert('You let Ruff get run over! You son of a bitch!!!');
+      console.log('You let Ruff get run over! You son of a bitch!!!');
     } 
-    //checkCollision(cars[i])
   }
 }
-
-
 
 /*----------------------------------Coins----------------------------------*/
 class Coins {
@@ -373,6 +312,7 @@ class Coins {
 
 let coins = [];
 let coinSpeed = 4;
+let coinsCollected = 0;
 
 var imgCoins = new Image();
 imgCoins.src = "./IMG/Coins/GoldCoinSprite/coinSpriteSheet.png";
@@ -386,11 +326,6 @@ function createCoins(){
   coins.push(new Coins(generateX(), 200));
 }
 
-let coinsCollected = 0;
-
-/*drawCoins function will control how 
-quickly coins approach (default is moving 2 spaces on y axis). This can also be set
-to a variable that can change based on difficulty, along with setInterval*/
 function drawCoins() {
   for(let i = 0; i<coins.length; i++){
     coins[i].y += coinSpeed;
@@ -406,14 +341,13 @@ function drawCoins() {
   }
 }
 
-
 /*--------------------------Animation-------------------------------------------------*/
 let frames = 0;
 let highScore = 0;
 // let score = 0;
 
 function animate(game){
-  let score= Math.floor(frames/5) + (100 * coinsCollected);    //The intention is to add 100 score to the score for every point collected 
+  let score = Math.floor(frames/5) + (100 * coinsCollected);    //The intention is to add 100 score to the score for every point collected 
   levelUp(score)
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawZombies();
@@ -432,84 +366,4 @@ function animate(game){
   game.score = score;
   //console.log('this is the score', game.score)
   //console.log(frames);
-
-
 }
-
-
-
-/*--------------------------Testing Crash/Stop function--------------------------------*/
-function getDistance(user, obstacles) {
-  if (obstacles.x < user.x + user.width &&
-    obstacles.x + obstacles.width > user.x &&
-    obstacles.y < user.y + user.height &&
-    obstacles.y + obstacles.height > user.y) {
-       return true;
-    }
-
-// function getDistance (user, zombies) {
-//   let xDistance = zombies.x - user.x;
-//   let yDistance = zombies.y - user.y;
-//   let takeAPyth = Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
-
-//   return takeAPyth;
-// }
-// collision detected!
-}
-
-// function checkCollision(obstacles){
-//   //if(obstacle.y > 475 && obstacle.x ){
-
-//     if(
-//       obstacles.y + 40 == 470 // the obstacle is low enough to hit the user
-//       && ((user.x >= obstacles.x  //the obstacle is further to the left then the user
-//       && user.x <= obstacles.x + obstacles.width) // the obstacles is further to the right then the user 
-//       || (user.x + 40 >= obstacles.x // the obstacles[1] is hitting the left side of the user 
-//       && user.x + 40<= obstacles.x + obstacles.width))) //the obstacles is hitting the right side of the user
-      
-//       {
-//              alert("Watch where you're going!!");
-//     console.log('obs is about to pass user')
-//   }
-// }
-    
-//     if(
-//       obstacles[1].y + 40 == 540 // the obstacle is low enough to hit the user
-//       && ((user.x >= obstacles[1].x  //the obstacle is further to the left then the user
-//       && user.x <= obstacles[1].x + obstacles[1].width) // the obstacles is further to the right then the user 
-//       || (user.x + 50 >= obstacles[1].x // the obstacles[1] is hitting the left side of the user 
-//       && user.x + 50<= obstacles[1].x + obstacles[1].width))) //the obstacles is hitting the right side of the user
-      
-//       {
-//              alert("Watch where you're going!!");
-//     //console.log('obs is about to pass car')
-//   }
-// }
-
-// if (Zombie.y === user.y && (Zombie.x === user.x)){
-//   function stop () {
-
-//  }
-// }
-
-
-
-/*--------------------------Not Currently Used--------------------------------*/
-// let update = () => {
-//   setInterval(updateCanvas, 1000);
-//   update();
-// }
-
-
-// function updateCanvas() {
-//   ctx.clearRect(0,0,1500,1700);
-//   draw(user);
-// }
-
-// let clearedObstacles = 0;
-// let points = clearedObstacles * 5;
-
-// if (Obstacle.y > window.height - 40) {
-//   $('#score').text("Score: " + points);
-//   console.log(points);
-// 
