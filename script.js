@@ -8,13 +8,22 @@ window.onload = function() {
 var canvas = document.getElementById("board");
 var ctx = canvas.getContext("2d");
 
+ class Game {
+   constructor(){
+     this.score = 0;
+     this.level = 1;
+     
+   }
+ }
+
+
 function startGame() {
+  let game = new Game;
   backgroundMusic.play();
   dogBark.play();
-  animate();
+  
+  animate(game);
   levelUp()
-
-
 // if (score <= 2000) {
 //   levelOne();
 // } else if (score > 2000 && score <= 4000) {
@@ -29,66 +38,99 @@ function startGame() {
 }
 let level = 0;
 function levelUp(points){
-  console.log(points, level)
+  // console.log(points, level)
 
-  if (points <= 1000 && level !=1) {
+  if (points <= 1000 && level !=1 && points != 0) {
     levelOne();
     level = 1; 
-  } else if (points > 1000 && points <= 2000 && level !=2) {
+  } else if (points > 100 && points <= 300 && level !=2) {
     levelTwo();
     level = 2; 
-  } else if (points > 2000 && points <= 3000 && level != 3) {
+  } else if (points > 300 && points <= 500 && level != 3) {
     levelThree();
     level = 3 
-  } else if (points > 3000 && points <= 4000 && level != 4) {
+  } else if (points > 500 && points <= 700 && level != 4) {
     levelFour();
     level = 4 
-  } else if (points > 4000 && points <= 50000  && level != 5) {
+  } else if (points > 700 && points <= 900  && level != 5) {
     levelFive();
     level = 5
-  } else if (points >= 5000) {
+  } else if (points > 900) {
     alert('Ruff survived the apocalypse with your help!')
   }
+ }
+
+
+//let carInterval = setInterval(createCars, 10000); //vehicle generated every 10 secs
+
+function zombieCoinInt () {
+  let zombieInterval = setInterval(createZombie, 3000); //3000 creates a new Zombie every 3 seconds.
+  let coinInterval = setInterval(createCoins, 5000); //coins generated every 5 secs
 }
 
 function levelOne () {
-  setInterval(createZombie, 3000); //3000 creates a new Zombie every 3 seconds. Can be made into variable based on level. Testing inside animate function
-  setInterval(createCoins, 5000); //coins generated every 5 secs
+  // zombieInterval;
+  // coinInterval;
+  zombieCoinInt();
+  document.getElementById('level').innerText = "1";
 }
 
-function levelTwo () {
-  //setInterval(createZombie, 3000); //3000 creates a new Zombie every 3 seconds. Can be made into variable based on level. Testing inside animate function
-  //setInterval(createCoins, 5000); //coins generated every 5 secs
-  setInterval(createCars, 10000); //vehicle generated every 10 secs
-  document.getElementById('level').innerText = "2";
-}
 
-function levelThree () {
-  setInterval(createZombie, 7500); //3000 creates a new Zombie every 2 seconds. Can be made into variable based on level. Testing inside animate function
-  //setInterval(createCoins, 7000); //coins generated every 7 secs
-  //setInterval(createCars, 12000); //vehicle generated every 8 secs
-  document.getElementById('level').innerText = "3";
-}
+// function levelTwo () {
+//   zombieInterval;
+//   coinInterval;
+//   carInterval;
+//   document.getElementById('level').innerText = "2";
+// }
 
-function levelFour () {
-  //setInterval(createZombie, 2000); //3000 creates a new Zombie every 2 seconds. Can be made into variable based on level. Testing inside animate function
-  //setInterval(createCoins, 7000); //coins generated every 7 secs
-  setInterval(createCars, 12000); //vehicle generated every 8 secs
-  document.getElementById('level').innerText = "4";
-}
+// function levelThree () {
+//   clearInterval(zombieInterval);
+//   clearInterval(coinInterval);
+//   clearInterval(carInterval);
+//   zombieInterval = setInterval(createZombie, 2500); //2500 creates a new Zombie every 2.5 seconds
+//   zombieSpeed += 1; //Zombie speed increased by 1 pixel per frame
+//   coinInterval = setInterval(createCoins, 7000); //coins generated every 7 secs
+//   carInterval = setInterval(createCars, 7500);
+//   document.getElementById('level').innerText = "3";
+// }
 
-function levelFive () {
-  setInterval(createZombie, 9500); //3000 creates a new Zombie every 2 seconds. Can be made into variable based on level. Testing inside animate function
-  //setInterval(createCoins, 10000); //coins generated every 10 secs
-  setInterval(createCars, 8000); //vehicle generated every 5 secs
-  document.getElementById('level').innerText = "5";
-}
+// function levelFour () {
+//   clearInterval(zombieInterval);
+//   zombieInterval = setInterval(createZombie, 2000);
+//   coinInterval;
+//   coinSpeed += 1;
+//   clearInterval(carInterval);
+//   setInterval(createCars, 5000); //vehicle generated every 5 secs
+//   carSpeed += 1;
+//   document.getElementById('level').innerText = "4";
+// }
+
+// function levelFive () {
+//   clearInterval(zombieInterval);
+//   clearInterval(coinInterval);
+//   clearInterval(carInterval);
+//   zombieInterval = setInterval(createZombie, 1500);
+//   zombieSpeed += 1;
+//   coinInterval = setInterval(createCoins, 10000);
+//   coinSpeed += 1;
+//   carInterval = setInterval(createCars, 3000);
+//   carSpeed += 1;
+//   document.getElementById('level').innerText = "5";
+// }
 
 
 
 function endGame() {
   backgroundMusic.stop();
   dogWhimper.play();
+  //init();
+}
+
+function init() {
+  //level = 1;
+  //points = 0 
+  //window.location.reload()
+  startGame()
 }
 
 
@@ -140,7 +182,6 @@ document.onkeydown = function(e) {
 //Sets default y of 0 and increases by 2 
 //This is what causes the zombies/objects to move down the canvas
 var y = 0;
-var dy = +2;
 
 
 //generates a random x point at which zombies/obstacles spawn
@@ -210,6 +251,7 @@ class Zombie {
 }
 
 let zombies = [];
+let zombieSpeed = 2;
 
 var imgZombie = new Image();
 imgZombie.src = "./IMG/zombie/zombieIdleCrop.png";
@@ -220,7 +262,7 @@ function createZombie(){
     y:-43,
   }
   zombies.push(new Zombie(generateX(), 200));
-  zombieSounds[generateRandomSound()].play(); //currently plays WAY too often 
+  zombieSounds[generateRandomSound()].play(); 
 }
 
 
@@ -231,13 +273,18 @@ to a variable that can change based on difficulty, along with setInterval*/
 
 function drawZombies() {
   for(var i = 0; i<zombies.length; i++){
-    zombies[i].y += 2;   //Defines speed of the zombies
+    zombies[i].y += zombieSpeed;   //Defines speed of the zombies
     ctx.drawImage(imgZombie, zombies[i].x,zombies[i].y, 40.4, 43);
     //checkCollision
     if (getDistance (user, zombies[i])) {    //if less than the addition of half the width of user + obstacle
+      console.log('collision')
+
       zombieSounds[generateRandomSound()].play();
-      endGame();
-      alert('You let Ruff get killed! You son of a bitch!!!');
+      game.score = 0;
+      game.level = 1;
+console.log(game.score)
+      //endGame();
+      // alert('You let Ruff get killed! You son of a bitch!!!');
     } 
   }
 }
@@ -253,6 +300,7 @@ class Cars {
 }
 
 let cars = [];
+let carSpeed = 5;
 
 var imgCars = new Image();
 imgCars.src = "./IMG/obstacles/JeepCrop.png";
@@ -274,7 +322,7 @@ to a variable that can change based on difficulty, along with setInterval*/
 
 function drawCars() {
   for(var i = 0; i<cars.length; i++){
-    cars[i].y += 5 //defines speed of the car
+    cars[i].y += carSpeed; //defines speed of the car
     ctx.drawImage(imgCars, cars[i].x,cars[i].y, 80, 148)  //width and height are last 2
     if (getDistance (user, cars[i])) {    //if less than the addition of half the width of user + obstacle
       splatSound.play();
@@ -298,9 +346,11 @@ class Coins {
 }
 
 let coins = [];
+let coinSpeed = 4;
 
 var imgCoins = new Image();
-imgCoins.src = "./IMG/Coins/GoldCoinSprite/Coin1.png";
+imgCoins.src = "./IMG/Coins/GoldCoinSprite/coinSpriteSheet.png";
+//imgCoins.src = "./IMG/Coins/GoldCoinSprite/Coin1.png";
 
 function createCoins(){
   let obs = {
@@ -315,11 +365,11 @@ let coinsCollected = 0;
 /*drawCoins function will control how 
 quickly coins approach (default is moving 2 spaces on y axis). This can also be set
 to a variable that can change based on difficulty, along with setInterval*/
-
 function drawCoins() {
-  for(var i = 0; i<coins.length; i++){
-    coins[i].y += 4
-    ctx.drawImage(imgCoins, coins[i].x,coins[i].y, 20, 20)  //width and height are last 2
+  for(let i = 0; i<coins.length; i++){
+    coins[i].y += coinSpeed;
+    //ctx.drawImage(imgCoins, sx, 0, 30, 30, coins[i].x,coins[i].y, 20, 20)  //width and height are last 2
+     ctx.drawImage(imgCoins, coins[i].x,coins[i].y, 20, 20)  //width and height are last 2
     //checkCollision(coins[i])
     if (getDistance (user, coins[i])) {    //if less than the addition of half the width of user + obstacle ----- item radius
       coinSound.play();
@@ -334,13 +384,13 @@ function drawCoins() {
 /*--------------------------Animation-------------------------------------------------*/
 let frames = 0;
 let highScore = 0;
-let score = 0;
+// let score = 0;
 
-function animate(){
-  let points = Math.floor(frames/5) + (100 * coinsCollected);    //The intention is to add 100 points to the score for every point collected 
-  levelUp(points)
+function animate(game){
+  let score= Math.floor(frames/5) + (100 * coinsCollected);    //The intention is to add 100 score to the score for every point collected 
+  levelUp(score)
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  drawZombies(zombies[1]);
+  drawZombies();
   drawCoins(coins[1]);
   drawCars(cars[1]);
   ctx.drawImage(img, user.x, user.y, 32, 55); 
@@ -348,13 +398,16 @@ function animate(){
   
   frames += 1;
 
-  document.getElementById('score').innerText = points ;
+  document.getElementById('score').innerText = score ;
   document.getElementById('coinsCollected').innerText = coinsCollected;
-  if (points > highScore) {
-    document.getElementById('highScore').innerText = points;
+  if (score > highScore) {
+    document.getElementById('highScore').innerText = score;
   }
-  score = points;
-  //console.log(score);
+  game.score = score;
+  //console.log('this is the score', game.score)
+  console.log(frames);
+
+
 }
 
 
