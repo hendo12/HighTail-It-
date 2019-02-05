@@ -39,8 +39,7 @@ function startGame() {
 let level = 0;
 function levelUp(points){
   // console.log(points, level)
-
-  if (points <= 1000 && level !=1 && points != 0) {
+  if (points <= 100 && level !=1 && points != 0) {
     levelOne();
     level = 1; 
   } else if (points > 100 && points <= 300 && level !=2) {
@@ -58,17 +57,41 @@ function levelUp(points){
   } else if (points > 900) {
     alert('Ruff survived the apocalypse with your help!')
   }
+  // if (points <= 1000 && level !=1 && points != 0) {
+  //   levelOne();
+  //   level = 1; 
+  // } else if (points > 100 && points <= 300 && level !=2) {
+  //   levelTwo();
+  //   level = 2; 
+  // } else if (points > 300 && points <= 500 && level != 3) {
+  //   levelThree();
+  //   level = 3 
+  // } else if (points > 500 && points <= 700 && level != 4) {
+  //   levelFour();
+  //   level = 4 
+  // } else if (points > 700 && points <= 900  && level != 5) {
+  //   levelFive();
+  //   level = 5
+  // } else if (points > 900) {
+  //   alert('Ruff survived the apocalypse with your help!')
+  // }
  }
 
 
-//let carInterval = setInterval(createCars, 10000); //vehicle generated every 10 secs
+let carInterval;
+let zombieInterval 
+let coinInterval;
+
 
 function zombieCoinInt () {
-  let zombieInterval = setInterval(createZombie, 3000); //3000 creates a new Zombie every 3 seconds.
-  let coinInterval = setInterval(createCoins, 5000); //coins generated every 5 secs
+  zombieInterval = setInterval(createZombie, 3000); //3000 creates a new Zombie every 3 seconds.
+  coinInterval = setInterval(createCoins, 5000); //coins generated every 5 secs
+  carInterval = setInterval(createCars, 10000); //vehicle generated every 10 secs
+
 }
 
 function levelOne () {
+  //clearInterval(carInterval);
   // zombieInterval;
   // coinInterval;
   zombieCoinInt();
@@ -76,47 +99,50 @@ function levelOne () {
 }
 
 
-// function levelTwo () {
-//   zombieInterval;
-//   coinInterval;
-//   carInterval;
-//   document.getElementById('level').innerText = "2";
-// }
+function levelTwo () {
+  //zombieInterval;
+  //coinInterval;
+  //carInterval;
+  document.getElementById('level').innerText = "2";
+}
 
-// function levelThree () {
-//   clearInterval(zombieInterval);
-//   clearInterval(coinInterval);
-//   clearInterval(carInterval);
-//   zombieInterval = setInterval(createZombie, 2500); //2500 creates a new Zombie every 2.5 seconds
-//   zombieSpeed += 1; //Zombie speed increased by 1 pixel per frame
-//   coinInterval = setInterval(createCoins, 7000); //coins generated every 7 secs
-//   carInterval = setInterval(createCars, 7500);
-//   document.getElementById('level').innerText = "3";
-// }
+function levelThree () {
+  
+  clearInterval(zombieInterval);
+  clearInterval(coinInterval);
+  clearInterval(carInterval);
+  zombieInterval = setInterval(createZombie, 2500); //2500 creates a new Zombie every 2.5 seconds
+  zombieSpeed += 1; //Zombie speed increased by 1 pixel per frame
+  coinInterval = setInterval(createCoins, 7000); //coins generated every 7 secs
+  carInterval = setInterval(createCars, 7500);
+  document.getElementById('level').innerText = "3";
+}
 
-// function levelFour () {
-//   clearInterval(zombieInterval);
-//   zombieInterval = setInterval(createZombie, 2000);
-//   coinInterval;
-//   coinSpeed += 1;
-//   clearInterval(carInterval);
-//   setInterval(createCars, 5000); //vehicle generated every 5 secs
-//   carSpeed += 1;
-//   document.getElementById('level').innerText = "4";
-// }
+function levelFour () {
+  
+  clearInterval(zombieInterval);
+  zombieInterval = setInterval(createZombie, 2000);
+  coinInterval;
+  coinSpeed += 1;
+  clearInterval(carInterval);
+  setInterval(createCars, 5000); //vehicle generated every 5 secs
+  carSpeed += 1;
+  document.getElementById('level').innerText = "4";
+}
 
-// function levelFive () {
-//   clearInterval(zombieInterval);
-//   clearInterval(coinInterval);
-//   clearInterval(carInterval);
-//   zombieInterval = setInterval(createZombie, 1500);
-//   zombieSpeed += 1;
-//   coinInterval = setInterval(createCoins, 10000);
-//   coinSpeed += 1;
-//   carInterval = setInterval(createCars, 3000);
-//   carSpeed += 1;
-//   document.getElementById('level').innerText = "5";
-// }
+function levelFive () {
+  
+  clearInterval(zombieInterval);
+  clearInterval(coinInterval);
+  clearInterval(carInterval);
+  zombieInterval = setInterval(createZombie, 1500);
+  zombieSpeed += 1;
+  coinInterval = setInterval(createCoins, 10000);
+  coinSpeed += 1;
+  carInterval = setInterval(createCars, 3000);
+  carSpeed += 1;
+  document.getElementById('level').innerText = "5";
+}
 
 
 
@@ -262,6 +288,8 @@ function createZombie(){
     y:-43,
   }
   zombies.push(new Zombie(generateX(), 200));
+  console.log(zombies)
+  //debugger
   zombieSounds[generateRandomSound()].play(); 
 }
 
@@ -405,7 +433,7 @@ function animate(game){
   }
   game.score = score;
   //console.log('this is the score', game.score)
-  console.log(frames);
+  //console.log(frames);
 
 
 }
