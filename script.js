@@ -7,18 +7,11 @@ window.onload = function() {
 var canvas = document.getElementById("board");
 var ctx = canvas.getContext("2d");
 
- class Game {
-   constructor(){
-     this.score = 0;
-     this.level = 1;
-   }
- }
-
 function startGame() {
-  let game = new Game;
   backgroundMusic.play();
   dogBark.play();
-  animate(game);
+  window.cancelAnimationFrame(anime);
+  animate();
   levelUp();
 }
 
@@ -31,12 +24,23 @@ function endGame() {
 function init() {
   level = 0;
   document.getElementById('level').innerText = "1";
+  frames = 0;
   points = 0;
+  document.getElementById('score').innerText = 0;
   user.x = 200;
   user.y = 540;
+  coinsCollected = 0;
   emptyObstacleArrays(zombies, cars, coins); 
+  //window.cancelAnimationFrame(anime);
+  resetObstacleSpeed();
   clearAllIntervals();
   setTimeout(startGame(), 3000);
+}
+
+function resetObstacleSpeed () {
+  coinSpeed = 4;
+  zombieSpeed = 2;
+  carSpeed = 5;
 }
 
 function emptyObstacleArrays (zombies, cars, coins) {
@@ -48,10 +52,10 @@ function emptyObstacleArrays (zombies, cars, coins) {
 let level = 0;
 function levelUp(points){
   // console.log(points, level)
-  if (points <= 100 && level !=1 && points != 0) {
+  if (points <= 150 && level !=1 && points != 0) {
     levelOne();
     level = 1; 
-  } else if (points > 100 && points <= 300 && level !=2) {
+  } else if (points > 150 && points <= 300 && level !=2) {
     levelTwo();
     level = 2; 
   } else if (points > 300 && points <= 500 && level != 3) {
@@ -127,8 +131,8 @@ function levelFive () {            //Level 5 has zombies and cars generating eve
 
 
 var user = {
-  x: 200,  //initializes user on x axis
-  y: 540,  //initializes use on y axis        
+  x: 200,  //initializes user on x & y axis
+  y: 540,        
   moveLeft:  function() { this.x -= 20 },  // how much each keypress will move
   moveRight: function() { this.x += 20 } ,  //left or right
   width: 32,
@@ -246,7 +250,6 @@ function createZombie(){
     y:-43,
   }
   zombies.push(new Zombie(generateX(), 200));
-  //debugger
   zombieSounds[generateRandomSound()].play(); 
 }
 
@@ -344,26 +347,24 @@ function drawCoins() {
 /*--------------------------Animation-------------------------------------------------*/
 let frames = 0;
 let highScore = 0;
-// let score = 0;
+
+let anime;
 
 function animate(game){
   let score = Math.floor(frames/5) + (100 * coinsCollected);    //The intention is to add 100 score to the score for every point collected 
-  levelUp(score)
+  levelUp(score);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawZombies();
   drawCoins(coins[1]);
   drawCars(cars[1]);
   ctx.drawImage(img, user.x, user.y, 32, 55); 
-  window.requestAnimationFrame(animate);
-  
+  anime = window.requestAnimationFrame(animate);
   frames += 1;
-
   document.getElementById('score').innerText = score ;
   document.getElementById('coinsCollected').innerText = coinsCollected;
   if (score > highScore) {
     document.getElementById('highScore').innerText = score;
+    highScore = score;
   }
-  game.score = score;
-  //console.log('this is the score', game.score)
-  //console.log(frames);
+  points = score;
 }
