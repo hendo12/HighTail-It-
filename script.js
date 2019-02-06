@@ -8,11 +8,14 @@ var canvas = document.getElementById("board");
 var ctx = canvas.getContext("2d");
 
 function startGame() {
+  console.log('hi')
   backgroundMusic.play();
   dogBark.play();
   window.cancelAnimationFrame(anime);
   animate();
   levelUp();
+
+  
 }
 
 function endGame() {
@@ -22,17 +25,23 @@ function endGame() {
 }
 
 
-
 function init() {
-  setTimeout(startGame, 30000);
-  window.cancelAnimationFrame(anime);
-  level = 0;
+  setTimeout(startGame, 1000);
+  alert("Ruff was killed! Press 'OK' or the 'ENTER' button to try again!");
+  //startGame();
+  console.log(anime)
+  //window.cancelAnimationFrame(anime);
+  /*setTimeout(()=>{ //fixMe
+    //window.cancelAnimationFrame(anime)
+    startGame()
+  },3000)*/
+  //level = 0;
   document.getElementById('level').innerText = "1";
   frames = 0;
   points = 0;
   document.getElementById('score').innerText = 0;
   user.x = 200;
-  user.y = 540;
+  user.y = 500;
   coinsCollected = 0;
   emptyObstacleArrays(zombies, cars, coins); 
   resetObstacleSpeed();
@@ -87,7 +96,7 @@ function levelUp(points){
   } else if (points > 1400 && points <= 1500  && level != 10) {
     levelTen();
     level = 10
-  } else if (points > 1500) {
+  } else if (points == 1500) {
     alert('Great job! Ruff survived the apocalypse with your help!')
   }
 }
@@ -182,7 +191,7 @@ function levelTen () {            //Level 5 has zombies and cars generating even
 
 var user = {
   x: 200,  //initializes user on x & y axis
-  y: 540,        
+  y: 500,        
   moveLeft:  function() { this.x -= 20 },  // how much each keypress will move
   moveRight: function() { this.x += 20 } ,  //left or right
   moveUp:  function() { this.y -= 20 },
@@ -199,45 +208,36 @@ img.src = "./IMG/user/ruffStill.png";
 
 /*--------------------------User Boundaries------------------------------------------*/
 
-// document.onkeydown = function(e) {
-//   if(user.x < 70){
-//     switch (e.keyCode) {
-//       case 39: user.moveRight(); 
-//       break;
-//     }
-//   }
-//   else (user.x > 310){
-//     switch (e.keyCode) {
-//       case 37: user.moveLeft(); 
-//       break;
-//     }
-//   }
-//   else (user.y > )
-//   else{
-//     switch (e.keyCode) {
-//       case 37: user.moveLeft();   
-//       break;
-//       case 38: ghost.moveUp(); 
-//       break;
-//       case 39: user.moveRight(); 
-//       break;
-//       case 40: ghost.moveDown();
-//       break;
-//     }
-//   }
-// }
-
-
 document.onkeydown = function(e) {
   if(user.x < 70){
     switch (e.keyCode) {
       case 39: user.moveRight(); 
+      case 40: user.moveDown();
+      case 38: user.moveUp();
       break;
     }
   }
-  else if(user.x > 310){
+  else if (user.x > 310){
     switch (e.keyCode) {
       case 37: user.moveLeft(); 
+      case 40: user.moveDown();
+      case 38: user.moveUp();
+      break;
+    }
+  }
+  else if (user.y < 55) {
+    switch(e.keycode) {
+      case 40: user.moveDown();
+      case 37: user.moveLeft();
+      case 39: user.moveRight(); 
+      break;
+    }
+  }
+  else if (user.y > 595) { 
+    switch(e.keycode) {
+      case 38: user.moveUp();
+      case 37: user.moveLeft();
+      case 39: user.moveRight(); 
       break;
     }
   }
@@ -245,11 +245,39 @@ document.onkeydown = function(e) {
     switch (e.keyCode) {
       case 37: user.moveLeft();   
       break;
+      case 38: user.moveUp(); 
+      break;
       case 39: user.moveRight(); 
+      break;
+      case 40: user.moveDown();
       break;
     }
   }
 }
+
+
+// document.onkeydown = function(e) {
+//   if(user.x < 70){
+//     switch (e.keyCode) {
+//       case 39: user.moveRight(); 
+//       break;
+//     }
+//   }
+//   else if(user.x > 310){
+//     switch (e.keyCode) {
+//       case 37: user.moveLeft(); 
+//       break;
+//     }
+//   }
+//   else{
+//     switch (e.keyCode) {
+//       case 37: user.moveLeft();   
+//       break;
+//       case 39: user.moveRight(); 
+//       break;
+//     }
+//   }
+// }
 
 /*----------------------------------Functionality--------------------------------------*/
 
@@ -338,7 +366,7 @@ function createZombie(){
 function drawZombies() {
   for(var i = 0; i<zombies.length; i++){
     zombies[i].y += zombieSpeed;   //Defines speed of the zombies
-    ctx.drawImage(imgZombie, srcX2, srcY, 336, 298, zombies[i].x,zombies[i].y, 65, 60);
+    ctx.drawImage(imgZombie, srcX2, srcY, 316, 298, zombies[i].x,zombies[i].y, 65, 60);
     if (getDistance (user, zombies[i])) {    //if less than the addition of half the width of user + obstacle
       zombieSounds[generateRandomSound()].play();
       console.log('You let Ruff get killed! You son of a bitch!!!');
@@ -455,6 +483,7 @@ function updateZombieFrame(framez2, width2) {
 // }
 
 function animate(game){
+  console.log('animate')
   let score = Math.floor(frames/5) + (100 * coinsCollected);    //The intention is to add 100 score to the score for every point collected 
   levelUp(score);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -474,3 +503,4 @@ function animate(game){
   }
   points = score;
 }
+
