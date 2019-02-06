@@ -16,7 +16,7 @@ function startGame() {
 }
 
 function endGame() {
-  backgroundMusic.stop();
+  //backgroundMusic.stop();
   dogWhimper.play();
   init();
 }
@@ -69,8 +69,26 @@ function levelUp(points){
   } else if (points > 700 && points <= 900  && level != 5) {
     levelFive();
     level = 5
-  } else if (points > 900) {
-    console.log('Ruff survived the apocalypse with your help!')
+  } else if (points > 900 && points <= 1000  && level != 6) {
+    levelSix();
+    level = 6
+  } else if (points > 1000 && points <= 1100  && level != 7) {
+    levelSeven();
+    level = 7
+  } else if (points > 1100 && points <= 1200  && level != 8) {
+    levelEight();
+    level = 8
+  } else if (points > 1200 && points <= 1300  && level != 8) {
+    levelEight();
+    level = 8
+  } else if (points > 1300 && points <= 1400  && level != 9) {
+    levelNine();
+    level = 9
+  } else if (points > 1400 && points <= 1500  && level != 10) {
+    levelTen();
+    level = 10
+  } else if (points > 1500) {
+    alert('Great job! Ruff survived the apocalypse with your help!')
   }
 }
 
@@ -91,42 +109,72 @@ function clearAllIntervals (){
 }
 
 function levelOne () {              //Level one has zombies and coins, but no cars
-  zombieCoinInt(3000,5000,10000);
+  zombieCoinInt(2250,5000,10000);
   clearInterval(carInterval);
   document.getElementById('level').innerText = "1";
 }
 
 function levelTwo () {            //Level two has zombies, coins, and cars
   clearAllIntervals();
-  zombieCoinInt(3000,5000,10000);
-  //zombieInterval;
-  //coinInterval;
-  //carInterval;
+  zombieCoinInt(2250,5000,10000);
   document.getElementById('level').innerText = "2";
 }
 
 function levelThree () {          //Level three has zombies and cars generating faster, while coins are generating slower. Zombies also get faster.
   clearAllIntervals();
-  zombieCoinInt(2500,7000,7500);
+  zombieCoinInt(2250,5000,7500);
   zombieSpeed += 1; //Zombie speed increased by 1 pixel per frame
   document.getElementById('level').innerText = "3";
 }
 
 function levelFour () {           //Level 4 has has zombies and cars generating faster again. Both coins and cars get faster. 
   clearAllIntervals();
-  zombieCoinInt(1500, 7000, 5000);
+  zombieCoinInt(2000, 7000, 7500);
   coinSpeed += 1;
-  carSpeed += 1;
   document.getElementById('level').innerText = "4";
 }
 
 function levelFive () {            //Level 5 has zombies and cars generating even faster, while coins are generating even slower. All obstacles increase speed again.
   clearAllIntervals();
+  zombieCoinInt(2000, 7000, 6500);
+  carSpeed += 1;
+  document.getElementById('level').innerText = "5";
+}
+
+function levelSix () {            //Level 5 has zombies and cars generating even faster, while coins are generating even slower. All obstacles increase speed again.
+  clearAllIntervals();
+  zombieCoinInt(1625, 7000, 6500);
+  document.getElementById('level').innerText = "6";
+}
+
+function levelSeven () {            //Level 5 has zombies and cars generating even faster, while coins are generating even slower. All obstacles increase speed again.
+  clearAllIntervals();
+  zombieCoinInt(1625, 8500, 5500);
+  document.getElementById('level').innerText = "7";
+}
+
+function levelEight () {            //Level 5 has zombies and cars generating even faster, while coins are generating even slower. All obstacles increase speed again.
+  clearAllIntervals();
+  zombieCoinInt(1225, 8500, 5000);
+  zombieSpeed += 1; //Zombie speed increased by 1 pixel per frame
+  document.getElementById('level').innerText = "8";
+}
+
+function levelNine () {            //Level 5 has zombies and cars generating even faster, while coins are generating even slower. All obstacles increase speed again.
+  clearAllIntervals();
+  zombieCoinInt(1225, 9500, 4000);
+  coinSpeed += 1;
+  carSpeed += 1;
+  document.getElementById('level').innerText = "9";
+}
+
+function levelTen () {            //Level 5 has zombies and cars generating even faster, while coins are generating even slower. All obstacles increase speed again.
+  clearAllIntervals();
   zombieCoinInt(1000, 10000, 2500);
   zombieSpeed += 1;
   coinSpeed += 1;
   carSpeed += 1;
-  document.getElementById('level').innerText = "5";
+  document.getElementById('level').innerText = "10";
 }
 
 /*----------------------------------User--------------------------------------*/
@@ -137,6 +185,8 @@ var user = {
   y: 540,        
   moveLeft:  function() { this.x -= 20 },  // how much each keypress will move
   moveRight: function() { this.x += 20 } ,  //left or right
+  moveUp:  function() { this.y -= 20 },
+  moveDown:  function() { this.y += 20 },
   width: 32,
   height: 55,
 }
@@ -148,6 +198,35 @@ img.onload = function() {
 img.src = "./IMG/user/ruffStill.png";
 
 /*--------------------------User Boundaries------------------------------------------*/
+
+// document.onkeydown = function(e) {
+//   if(user.x < 70){
+//     switch (e.keyCode) {
+//       case 39: user.moveRight(); 
+//       break;
+//     }
+//   }
+//   else (user.x > 310){
+//     switch (e.keyCode) {
+//       case 37: user.moveLeft(); 
+//       break;
+//     }
+//   }
+//   else (user.y > )
+//   else{
+//     switch (e.keyCode) {
+//       case 37: user.moveLeft();   
+//       break;
+//       case 38: ghost.moveUp(); 
+//       break;
+//       case 39: user.moveRight(); 
+//       break;
+//       case 40: ghost.moveDown();
+//       break;
+//     }
+//   }
+// }
+
 
 document.onkeydown = function(e) {
   if(user.x < 70){
@@ -192,7 +271,6 @@ function getDistance(user, obstacles) {
     }
 }
 
-
 /*-------------------------------------Audio------------------------------------------*/
 function sound(src) {
   this.sound = document.createElement("audio");
@@ -235,16 +313,15 @@ class Zombie {
   constructor(x){
     this.x = x;
     this.y = -43;
-    this.width = 40.4;
-    this.height = 43;
+    this.width = 65;
+    this.height = 60;
   }
 }
 
 let zombies = [];
 let zombieSpeed = 2;
 const zombieHeight = 293;
-const zombieWidth = 311;
-
+const zombieWidth = 5697/17;
 
 var imgZombie = new Image();
 imgZombie.src = "./IMG/zombie/move/spritesheet.png";
@@ -261,7 +338,7 @@ function createZombie(){
 function drawZombies() {
   for(var i = 0; i<zombies.length; i++){
     zombies[i].y += zombieSpeed;   //Defines speed of the zombies
-    ctx.drawImage(imgZombie, srcX2, srcY, 311, 293, zombies[i].x,zombies[i].y, 43, 40);
+    ctx.drawImage(imgZombie, srcX2, srcY, 335, 293, zombies[i].x,zombies[i].y, 65, 60);
     if (getDistance (user, zombies[i])) {    //if less than the addition of half the width of user + obstacle
       zombieSounds[generateRandomSound()].play();
       console.log('You let Ruff get killed! You son of a bitch!!!');
@@ -312,13 +389,12 @@ class Coins {
   constructor(x){
     this.x = x;
     this.y = 0;
-    this.width = 30;
-    this.height = 30;
+    this.width = 20;
+    this.height = 20;
   }
 }
 
 const coinWidth = 40;
-
 let coins = [];
 let coinSpeed = 4;
 let coinsCollected = 0;
@@ -351,7 +427,6 @@ function drawCoins() {
 /*--------------------------Animation-------------------------------------------------*/
 let frames = 0;
 let highScore = 0;
-
 let anime;
 let currentFrame = 0;
 let currentZombieFrame = 0;

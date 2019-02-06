@@ -75,16 +75,12 @@ body {
   width: 33%;
 }
 
+#gameAnnouncement {
+  background-color: #F8B59A;
+  z-index: 1000;
+}
 
-/* Testing flexbox */
-/* #game-board {
-  display:flex;
-  justify-content: flex-start;
-  align-items: center;
-  padding: 20px 0px;
-  position: relative;
-  width: 45%;
-} */
+
 
 #gameInfo {
   color: white;
