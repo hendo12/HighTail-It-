@@ -321,7 +321,7 @@ class Zombie {
 let zombies = [];
 let zombieSpeed = 2;
 const zombieHeight = 293;
-const zombieWidth = 5697/17;
+const zombieWidth = 10914/17;
 
 var imgZombie = new Image();
 imgZombie.src = "./IMG/zombie/move/spritesheet.png";
@@ -338,7 +338,7 @@ function createZombie(){
 function drawZombies() {
   for(var i = 0; i<zombies.length; i++){
     zombies[i].y += zombieSpeed;   //Defines speed of the zombies
-    ctx.drawImage(imgZombie, srcX2, srcY, 335, 293, zombies[i].x,zombies[i].y, 65, 60);
+    ctx.drawImage(imgZombie, srcX2, srcY, 336, 298, zombies[i].x,zombies[i].y, 65, 60);
     if (getDistance (user, zombies[i])) {    //if less than the addition of half the width of user + obstacle
       zombieSounds[generateRandomSound()].play();
       console.log('You let Ruff get killed! You son of a bitch!!!');
@@ -437,14 +437,14 @@ let srcX2;
 let srcY;
 
 function updateFrame(framez, width) {
-  srcX = currentFrame * width;
   currentFrame = ++currentFrame % framez;
+  srcX = currentFrame * width;
   srcY = 0;
 }
 
 function updateZombieFrame(framez2, width2) {
-  srcX2 = currentZombieFrame * width2;
   currentZombieFrame = ++currentZombieFrame % framez2;
+  srcX2 = currentZombieFrame * width2;
   srcY = 0;
 }
 
