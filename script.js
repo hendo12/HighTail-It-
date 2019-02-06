@@ -21,7 +21,11 @@ function endGame() {
   init();
 }
 
+
+
 function init() {
+  setTimeout(startGame, 30000);
+  window.cancelAnimationFrame(anime);
   level = 0;
   document.getElementById('level').innerText = "1";
   frames = 0;
@@ -31,10 +35,8 @@ function init() {
   user.y = 540;
   coinsCollected = 0;
   emptyObstacleArrays(zombies, cars, coins); 
-  //window.cancelAnimationFrame(anime);
   resetObstacleSpeed();
   clearAllIntervals();
-  setTimeout(startGame(), 3000);
 }
 
 function resetObstacleSpeed () {
@@ -240,9 +242,12 @@ class Zombie {
 
 let zombies = [];
 let zombieSpeed = 2;
+const zombieHeight = 293;
+const zombieWidth = 311;
+
 
 var imgZombie = new Image();
-imgZombie.src = "./IMG/zombie/zombieIdleCrop.png";
+imgZombie.src = "./IMG/zombie/move/spritesheet.png";
 
 function createZombie(){
   let obs = {
@@ -256,12 +261,11 @@ function createZombie(){
 function drawZombies() {
   for(var i = 0; i<zombies.length; i++){
     zombies[i].y += zombieSpeed;   //Defines speed of the zombies
-    ctx.drawImage(imgZombie, zombies[i].x,zombies[i].y, 40.4, 43);
-    //checkCollision
+    ctx.drawImage(imgZombie, srcX2, srcY, 311, 293, zombies[i].x,zombies[i].y, 43, 40);
     if (getDistance (user, zombies[i])) {    //if less than the addition of half the width of user + obstacle
       zombieSounds[generateRandomSound()].play();
+      console.log('You let Ruff get killed! You son of a bitch!!!');
         endGame();
-        console.log('You let Ruff get killed! You son of a bitch!!!');
     } 
   }
 }
@@ -308,10 +312,12 @@ class Coins {
   constructor(x){
     this.x = x;
     this.y = 0;
-    this.width = 20;
-    this.height = 20;
+    this.width = 30;
+    this.height = 30;
   }
 }
+
+const coinWidth = 40;
 
 let coins = [];
 let coinSpeed = 4;
@@ -332,9 +338,7 @@ function createCoins(){
 function drawCoins() {
   for(let i = 0; i<coins.length; i++){
     coins[i].y += coinSpeed;
-    //ctx.drawImage(imgCoins, sx, 0, 30, 30, coins[i].x,coins[i].y, 20, 20)  //width and height are last 2
-     ctx.drawImage(imgCoins, coins[i].x,coins[i].y, 20, 20)  //width and height are last 2
-    //checkCollision(coins[i])
+    ctx.drawImage(imgCoins, srcX, srcY, 40, 30, coins[i].x,coins[i].y, 20, 20);
     if (getDistance (user, coins[i])) {    //if less than the addition of half the width of user + obstacle ----- item radius
       coinSound.play();
       coinsCollected += 1;
@@ -349,11 +353,38 @@ let frames = 0;
 let highScore = 0;
 
 let anime;
+let currentFrame = 0;
+let currentZombieFrame = 0;
+let coinFrames = 6;
+let zombieFrames = 17;
+let srcX;
+let srcX2;
+let srcY;
+
+function updateFrame(framez, width) {
+  srcX = currentFrame * width;
+  currentFrame = ++currentFrame % framez;
+  srcY = 0;
+}
+
+function updateZombieFrame(framez2, width2) {
+  srcX2 = currentZombieFrame * width2;
+  currentZombieFrame = ++currentZombieFrame % framez2;
+  srcY = 0;
+}
+
+// function updateZombieFrame(frames, height) {
+//   currentZombieFrame = ++currentZombieFrame % frames;
+//   srcX = 0;
+//   srcY = currentZombieFrame * height;
+// }
 
 function animate(game){
   let score = Math.floor(frames/5) + (100 * coinsCollected);    //The intention is to add 100 score to the score for every point collected 
   levelUp(score);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  updateZombieFrame(zombieFrames, zombieWidth);  //animate zombies
+  updateFrame(coinFrames, coinWidth);   //animate coins
   drawZombies();
   drawCoins(coins[1]);
   drawCars(cars[1]);
