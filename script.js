@@ -227,19 +227,17 @@ var user = {
   width: 32,
   height: 55,
 }
-const userWidth = 34;
+const userWidth = 155/5;
 
 
 var img = new Image();
-  //img.src="./IMG/user/ruffAnimationSlide.png";
+  //img.src="./IMG/user/RuffSheet2.png";
   img.src = "./IMG/user/ruffStill.png";                   //user animation rollback 
   //img.src="./IMG/user/RuffAnimated.gif"
 
 img.onload = function() { 
-  //ctx.drawImage(img, srcXUser, srcY, 34, 60, user.x, user.y, 136, 60);
+  //ctx.drawImage(img, srcXUser, srcY, 155, 59, user.x, user.y, 34, 59);
   ctx.drawImage(img, user.x, user.y, 32, 55);                       //user animation rollback
-  //ctx.drawImage(img, 0, 65, 34, 65, user.x, user.y, 136, 65);                       //user animation rollback
-//ctx.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
 }
 
 /*--------------------------User Boundaries & Movement------------------------------------------*/
@@ -383,11 +381,11 @@ class Zombie {
 
 let zombies = [];
 let zombieSpeed = 2;
-const zombieHeight = 293;
-const zombieWidth = 10914/17;
+const zombieHeight = 224;
+const zombieWidth = 642;
 
 var imgZombie = new Image();
-imgZombie.src = "./IMG/zombie/move/spritesheet.png";
+imgZombie.src = "./IMG/zombie/move/spritesheetcropped2.png";
 
 function createZombie(){
   let obs = {
@@ -401,7 +399,7 @@ function createZombie(){
 function drawZombies() {
   for(var i = 0; i<zombies.length; i++){
     zombies[i].y += zombieSpeed;   //Defines speed of the zombies
-    ctx.drawImage(imgZombie, srcX2, srcY, 311, 298, zombies[i].x,zombies[i].y, 65, 60);
+    ctx.drawImage(imgZombie, srcX2, srcY, 321, 224, zombies[i].x,zombies[i].y, 65, 60);
     if (getDistance (user, zombies[i])) {    //if less than the addition of half the width of user + obstacle
       zombieSounds[generateRandomSound()].play();
         endGame();
@@ -415,7 +413,7 @@ class Cars {
     this.x = x;
     this.y = -148;
     this.width = 80;
-    this.height = 148;
+    this.height = 158;
   }
 }
 
@@ -437,7 +435,7 @@ function createCars(){
 function drawCars() {
   for(var i = 0; i<cars.length; i++){
     cars[i].y += carSpeed; //defines speed of the car
-    ctx.drawImage(imgCars, cars[i].x,cars[i].y, 80, 148)  //width and height are last 2
+    ctx.drawImage(imgCars, cars[i].x,cars[i].y, 80, 158)  //width and height are last 2
     if (getDistance (user, cars[i])) {    //if less than the addition of half the width of user + obstacle
       splatSound.play();
       endGame();
@@ -493,10 +491,10 @@ let currentZombieFrame = 0;
 let currentUserFrame = 0;
 let coinFrames = 6;
 let zombieFrames = 17;
-let userFrames = 4;
+let userFrames = 5;
 let srcX;
 let srcX2;
-let srcXUser;
+var srcXUser;
 let srcY;
 
 function updateFrame(framez, width) {
@@ -527,6 +525,7 @@ function animate(game){
   drawZombies();
   drawCoins(coins[1]);
   drawCars(cars[1]);
+  //ctx.drawImage(img, srcXUser, srcY, 26, 60, user.x, user.y, 26, 60);     //user animation rollback
   ctx.drawImage(img, user.x, user.y, 32, 55); 
   anime = window.requestAnimationFrame(animate);
   frames += 1;
