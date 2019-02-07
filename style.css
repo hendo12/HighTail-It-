@@ -80,8 +80,6 @@ body {
 
 #game-board {
   float: left;
-  /* padding-top: 40px;
-  padding-right: 50px; */
   padding-left: 20px;
   position: relative;
   margin: 0;
@@ -120,4 +118,5 @@ canvas {
   background-size: cover;
   background-repeat: no-repeat;
   margin: 0;
+  padding: 0;
 }

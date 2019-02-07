@@ -48,45 +48,86 @@ function emptyObstacleArrays (zombies, cars, coins) {
   coins.length = 0;
 }
 
+/*----------------------------------------------------------DEMO LEVELING------------------------------------------------*/
 let level = 0;
 function levelUp(points){
-  if (points <= 300 && level !=1 && points != 0) {
+  if (points <= 100 && level !=1 && points != 0) {
     levelOne();
     level = 1; 
-  } else if (points > 300 && points <= 600 && level !=2) {
+  } else if (points > 100 && points <= 150 && level !=2) {
     levelTwo();
     level = 2; 
-  } else if (points > 600 && points <= 900 && level != 3) {
+  } else if (points > 150 && points <= 200 && level != 3) {
     levelThree();
     level = 3 
-  } else if (points > 900 && points <= 1200 && level != 4) {
+  } else if (points > 250 && points <= 300 && level != 4) {
     levelFour();
     level = 4 
-  } else if (points > 1200 && points <= 1500  && level != 5) {
+  } else if (points > 300 && points <= 350  && level != 5) {
     levelFive();
     level = 5
-  } else if (points > 1500 && points <= 1800  && level != 6) {
+  } else if (points > 400 && points <= 450  && level != 6) {
     levelSix();
     level = 6
-  } else if (points > 1800 && points <= 2100  && level != 7) {
+  } else if (points > 450 && points <= 500  && level != 7) {
     levelSeven();
     level = 7
-  } else if (points > 2100 && points <= 2400  && level != 8) {
+  } else if (points > 500 && points <= 550  && level != 8) {
     levelEight();
     level = 8
-  } else if (points > 2400 && points <= 2700  && level != 8) {
+  } else if (points > 550 && points <= 600  && level != 8) {
     levelEight();
     level = 8
-  } else if (points > 2700 && points <= 3000  && level != 9) {
+  } else if (points > 600 && points <= 700  && level != 9) {
     levelNine();
     level = 9
-  } else if (points > 3000 && points < 3300  && level != 10) {
+  } else if (points > 700 && points < 2000  && level != 10) {
     levelTen();
     level = 10
-  } else if (points == 3300) {
+  } else if (points == 2000) {
     alert('Great job! Ruff survived the apocalypse with your help!')
   }
 }
+/*----------------------------------------------------------Full Release LEVELING------------------------------------------------*/
+// let level = 0;
+// function levelUp(points){
+//   if (points <= 300 && level !=1 && points != 0) {
+//     levelOne();
+//     level = 1; 
+//   } else if (points > 300 && points <= 600 && level !=2) {
+//     levelTwo();
+//     level = 2; 
+//   } else if (points > 600 && points <= 900 && level != 3) {
+//     levelThree();
+//     level = 3 
+//   } else if (points > 900 && points <= 1200 && level != 4) {
+//     levelFour();
+//     level = 4 
+//   } else if (points > 1200 && points <= 1500  && level != 5) {
+//     levelFive();
+//     level = 5
+//   } else if (points > 1500 && points <= 1800  && level != 6) {
+//     levelSix();
+//     level = 6
+//   } else if (points > 1800 && points <= 2100  && level != 7) {
+//     levelSeven();
+//     level = 7
+//   } else if (points > 2100 && points <= 2400  && level != 8) {
+//     levelEight();
+//     level = 8
+//   } else if (points > 2400 && points <= 2700  && level != 8) {
+//     levelEight();
+//     level = 8
+//   } else if (points > 2700 && points <= 3000  && level != 9) {
+//     levelNine();
+//     level = 9
+//   } else if (points > 3000 && points < 3300  && level != 10) {
+//     levelTen();
+//     level = 10
+//   } else if (points == 3300) {
+//     alert('Great job! Ruff survived the apocalypse with your help!')
+//   }
+// }
 
 let carInterval;
 let zombieInterval 
@@ -186,22 +227,25 @@ var user = {
   width: 32,
   height: 55,
 }
-const userWidth = 32;
+const userWidth = 34;
 
 
 var img = new Image();
-//img.src="./IMG/user/ruffAnimationSlide.png";
-img.src = "./IMG/user/ruffStill.png";                   //user animation rollback 
+  //img.src="./IMG/user/ruffAnimationSlide.png";
+  img.src = "./IMG/user/ruffStill.png";                   //user animation rollback 
+  //img.src="./IMG/user/RuffAnimated.gif"
 
 img.onload = function() { 
-  //ctx.drawImage(img, srcXUser, srcY, 32, 55, user.x, user.y, 32, 55);
+  //ctx.drawImage(img, srcXUser, srcY, 34, 60, user.x, user.y, 136, 60);
   ctx.drawImage(img, user.x, user.y, 32, 55);                       //user animation rollback
+  //ctx.drawImage(img, 0, 65, 34, 65, user.x, user.y, 136, 65);                       //user animation rollback
+//ctx.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
 }
 
 /*--------------------------User Boundaries & Movement------------------------------------------*/
 
 document.onkeydown = function(e) {
-  if(user.x < 70){
+  if(user.x < 65){
     switch (e.keyCode) {
       case 38: user.moveUp();
       case 39: user.moveRight(); 
@@ -209,7 +253,7 @@ document.onkeydown = function(e) {
       break;
     }
   }
-  else if (user.x > 460){
+  else if (user.x > 465){
     switch (e.keyCode) {
       case 37: user.moveLeft(); 
       case 38: user.moveUp();
