@@ -1,3 +1,7 @@
+* {
+  margin: 0;
+}
+
 body {
   text-align: center;
   background-color: #F4F4F4;
@@ -19,8 +23,9 @@ body {
   flex-direction: column;
   justify-content: space-around;
   align-content: center;
-  width: 33%;
+  width: 40%;
   padding: 30px;
+  padding-left: 60px;
 }
 
 /* testing flexbox
@@ -54,6 +59,13 @@ body {
   width: 150px;
   align-self: center;
 }
+/* 
+#logoBox {
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  width: 300px;
+} */
 
 #start-button {
   font-size: 30px;
@@ -68,11 +80,12 @@ body {
 
 #game-board {
   float: left;
-  padding-top: 40px;
-  padding-right: 50px;
+  /* padding-top: 40px;
+  padding-right: 50px; */
+  padding-left: 20px;
   position: relative;
-  margin: 0 auto;
-  width: 33%;
+  margin: 0;
+  width: 40%;
 }
 
 #gameAnnouncement {
@@ -93,7 +106,7 @@ body {
   flex-direction: column;
   flex-wrap: nowrap;
   justify-content: center;
-  width: 25%;
+  width: 30%;
   align-items: center;
 }
 
@@ -103,7 +116,8 @@ body {
 
 
 canvas {
-  background-image: url('IMG/terrain/Furry\ Flight\ demo\ canvas\ copy.jpeg');
-  background-size: auto;
+  background-image: url('IMG/terrain/canvas\ resize.png');
+  background-size: cover;
   background-repeat: no-repeat;
+  margin: 0;
 }
