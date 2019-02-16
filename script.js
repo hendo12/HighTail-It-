@@ -236,7 +236,25 @@ var img = new Image();
   //img.src="./IMG/user/RuffAnimated.gif"
 
 img.onload = function() { 
-  //ctx.drawImage(img, srcXUser, srcY, 155, 59, user.x, user.y, 34, 59);
+  //ctx.drawImage(img, 0, 0, 155, 59, user.x, user.y, 155, 59);
+
+    
+    //ctx.drawImage(img, 0, 0, 26, 59, user.x, user.y, 26, 59);
+    //ctx.drawImage(img, 32, 0, 32, 59, user.x, user.y, 32, 59);
+    //ctx.drawImage(img, 0, 0, 88, 59, user.x, user.y, 88, 59);
+    //ctx.drawImage(img, 0, 0, 124, 59, user.x, user.y, 124, 59);
+    //ctx.drawImage(img, 0, 0, 155, 59, user.x, user.y, 155, 59);
+
+    //ctx.drawImage(img, 0, 0, 155, 59, user.x, user.y, 155, 59);
+
+    //	context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
+      //setInterval(()=>{
+    // //for(let i=1; i<6; i++){
+    //   ctx.drawImage(img, 0, 0, 26, 59, user.x, user.y, 155, 59);
+    // //}
+  //ctx.drawImage(img, 0, 0, 26, 60, user.x, user.y, 26, 60);     //user animation rollback
+  //ctx.drawImage(img, 0, 0, 26, 60, user.x, user.y, 26, 60);     //user animation rollback
+
   ctx.drawImage(img, user.x, user.y, 32, 55);                       //user animation rollback
 }
 
